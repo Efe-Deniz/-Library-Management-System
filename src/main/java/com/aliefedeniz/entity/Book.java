@@ -28,14 +28,9 @@ public class Book {
     @Column(name = "authorName", length = 100, nullable = false)
     private String authorName;
 
-    /**
-     * Bir kitap (Book), birden fazla kullanıcı (User) tarafından ödünç alınabilir;
-     * aynı şekilde bir kullanıcı da birden fazla kitabı ödünç alabilir.
-     */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "books_users", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "user_id") })
-    private User user;
+    @Column(name = "publication_year", nullable = false)
+    private String publicationYear;
+
 
     /**
      * bir kitap birden fazla yayıevin tarafından basılabilir

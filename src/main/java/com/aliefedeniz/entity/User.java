@@ -5,14 +5,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
@@ -36,6 +41,10 @@ public class User {
 
     @Column(name = "createdAt", nullable = false)
     private LocalDate createdAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<BorrowRecord> borrowRecords = new HashSet<>();
+
 
 
 

@@ -2,16 +2,15 @@ package com.aliefedeniz.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Table(name = "publishers")
 public class Publisher {
@@ -23,7 +22,8 @@ public class Publisher {
     @Column(name = "name",length = 100,nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "publishers")
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "publishers")
     private Set<Book> bookSet = new HashSet<>();
 
     public Publisher(String name){

@@ -21,14 +21,15 @@ public class BorrowRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long borrowRecordId;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "books_borrowrecords",
-            joinColumns = {@JoinColumn(name = "barrow_record_id")},
+            joinColumns = {@JoinColumn(name = "borrow_record_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    private Set<Book> bookSet = new HashSet<>();
+    private Set<Book> books = new HashSet<>();
 
     @Column(name = "borrowDate",nullable = false)
     private LocalDate borrowDate;
@@ -38,6 +39,18 @@ public class BorrowRecord {
 
     @Column(name = "isReturned",nullable = false)
     private boolean isReturned;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "penalty_id")
+    private Penalty penalty;
+
+    @PrePersist
+    public void prePersist() {
+        this.borrowDate = LocalDate.now();
+    }
+
+
+
 
 
 }
