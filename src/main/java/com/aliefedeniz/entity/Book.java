@@ -32,11 +32,15 @@ public class Book {
      * Bir kitap (Book), birden fazla kullanıcı (User) tarafından ödünç alınabilir;
      * aynı şekilde bir kullanıcı da birden fazla kitabı ödünç alabilir.
      */
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "books_users", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id") })
-    private Set<User> users = new HashSet<User>();
+    private User user;
 
+    /**
+     * bir kitap birden fazla yayıevin tarafından basılabilir
+     * bir yayın evi birden fazla kitap basabilir
+     */
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "books_publishers", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
             @JoinColumn(name = "publisher_id") })
